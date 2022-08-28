@@ -1,0 +1,11 @@
+@api=http://localhost:8080/v1/restaurant
+POST {{api}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"nothing",
+    "addr":"nothing"
+}
+#######
+
+DELETE {{api}}/1 HTTP/1.1
