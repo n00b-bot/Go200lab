@@ -24,7 +24,7 @@ func DeleteRestaurant(db *gorm.DB) gin.HandlerFunc {
 		bus := restaurantsbusiness.NewDeleteRestaurantBus(store)
 		if err := bus.Delete(ctx.Request.Context(), id); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
-				"error": err,
+				"error": err.Error(),
 			})
 			return
 		}

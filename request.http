@@ -8,4 +8,4 @@ Content-Type: application/json
 }
 #######
 
-DELETE {{api}}/1 HTTP/1.1
+DELETE {{api}}/3 HTTP/1.1

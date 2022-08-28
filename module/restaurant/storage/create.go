@@ -6,8 +6,8 @@ import (
 )
 
 func (s *sqlStore) Create(ctx context.Context, data *restaurantsmodel.RestaurantCreate) error {
-	if err := s.db.Create(data); err != nil {
-		return err.Error
+	if err := s.db.Create(data).Error; err != nil {
+		return err
 	}
 
 	return nil
