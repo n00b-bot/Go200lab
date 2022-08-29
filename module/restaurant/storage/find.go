@@ -10,7 +10,6 @@ func (s *sqlStore) FindDataWithCondition(context context.Context, condition map[
 	var data restaurantmodel.Restaurant
 	fmt.Println(condition)
 	if err := s.db.Where(condition).First(&data).Error; err != nil {
-		fmt.Println("nothing")
 		return nil, err
 	}
 

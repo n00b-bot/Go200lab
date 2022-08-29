@@ -1,35 +1,27 @@
 package ginrestaurant
 
 import (
+	"food/common"
+	"food/component/appctx"
 	restaurantsbusiness "food/module/restaurant/business"
 	restaurantstorage "food/module/restaurant/storage"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func DeleteRestaurant(db *gorm.DB) gin.HandlerFunc {
+func DeleteRestaurant(appCtx appctx.AppContext) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var id int
-		id, err := strconv.Atoi(ctx.Param("id"))
+		db := appCtx.GetMysqlConnection()
+		uid, err := common.FromBase58(ctx.Param("id"))
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
+			panic(common.ErrInvalidRequest(err))
 		}
 		store := restaurantstorage.NewSqlStore(db)
 		bus := restaurantsbusiness.NewDeleteRestaurantBus(store)
-		if err := bus.Delete(ctx.Request.Context(), id); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
+		if err := bus.Delete(ctx.Request.Context(), int(uid.GetLocalID())); err != nil {
+			panic(err)
 		}
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": "deleted",
-		})
+		ctx.JSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }

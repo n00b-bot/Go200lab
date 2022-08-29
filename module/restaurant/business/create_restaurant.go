@@ -2,6 +2,7 @@ package restaurantsbusiness
 
 import (
 	"context"
+	"food/common"
 	restaurantsmodel "food/module/restaurant/model"
 )
 
@@ -20,9 +21,9 @@ func NewCreateRestaurantBus(store CreateRestaurantStore) createRestaurantBus {
 
 }
 
-func (b *createRestaurantBus) CreateRestaurant(context context.Context, data *restaurantsmodel.RestaurantCreate) error {
+func (b *createRestaurantBus) Create(context context.Context, data *restaurantsmodel.RestaurantCreate) error {
 	if err := b.store.Create(context, data); err != nil {
-		return err
+		return common.ErrCannotCreateEntity(restaurantsmodel.Entity, err)
 	}
 	return nil
 }
