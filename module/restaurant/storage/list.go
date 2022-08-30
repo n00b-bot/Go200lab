@@ -20,9 +20,24 @@ func (s *sqlStore) ListDataWithCondition(ctx context.Context, filter *restaurant
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, err
 	}
-	offset := (paging.Page - 1) * paging.Limit
-	if err := db.Offset(offset).Limit(paging.Limit).Order("id desc").Find(&rs).Error; err != nil {
+	if paging.FakeCursor != "" {
+		uid, err := common.FromBase58(paging.FakeCursor)
+		if err != nil {
+			return nil, err
+		}
+		db = db.Where("id < ?", uid.GetLocalID())
+	} else {
+		offset := (paging.Page - 1) * paging.Limit
+		db = db.Offset(offset)
+	}
+
+	if err := db.Limit(paging.Limit).Order("id desc").Find(&rs).Error; err != nil {
 		return nil, err
+	}
+	if len(rs) > 0 {
+		last := rs[len(rs)-1]
+		last.GenUID(common.RestaurantType)
+		paging.NextCursor = last.FakeID.String()
 	}
 	return rs, nil
 }

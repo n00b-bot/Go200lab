@@ -121,3 +121,11 @@ func ErrEntityDeleted(entity string, e error) *AppError {
 		fmt.Sprintf("Err%sDeleted", entity),
 	)
 }
+
+func ErrCannotReadFile(e error) *AppError {
+	return NewCustomError(
+		e,
+		"Cannot read file upload",
+		"Cannot read file upload",
+	)
+}

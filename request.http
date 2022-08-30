@@ -4,12 +4,36 @@ Content-Type: application/json
 
 {
     "name":"1",
-    "addr":"here"
+    "addr":"here",
+    "logo":{
+        "url":"nothing.com",
+        "height": 1,
+        "width" : 2
+    },
+    "cover":[
+        {
+        "url":"nothing.com",
+        "height": 1,
+        "width" : 2
+    }
+    ]
 }
 #######
 
 DELETE {{api}}/3srL5VfG6da7AA HTTP/1.1
 ####
-GET {{api}} HTTP/1.1
+GET {{api}}?cursor=&limit=23 HTTP/1.1
 Content-Type: application/json
+#####
+GET http://localhost:8080/static////////1//1.txt
 
+####
+POST http://localhost:8080/v1/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+Content-Type: image/jpg
+
+< ./test.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

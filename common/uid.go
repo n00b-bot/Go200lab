@@ -61,6 +61,6 @@ func (u *UID) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	u = &decodeUID
+	*u = decodeUID
 	return nil
 }
