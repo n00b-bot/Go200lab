@@ -129,3 +129,27 @@ func ErrCannotReadFile(e error) *AppError {
 		"Cannot read file upload",
 	)
 }
+
+func ErrEmailExist(e error) *AppError {
+	return NewCustomError(
+		nil,
+		"Email has been existed",
+		"ErrEmailExist",
+	)
+}
+
+func ErrLoginFail(e error) *AppError {
+	return NewCustomError(
+		nil,
+		"Invalid email or password",
+		"ErrLoginFailed",
+	)
+}
+
+func ErrJWT(e error) *AppError{
+	return NewCustomError(
+		nil,
+		"Invalid jwt",
+		"ErrJwt",
+	)
+}

@@ -2,10 +2,12 @@ package main
 
 import (
 	"food/component/appctx"
+	"food/component/tokenprovider"
 	"food/component/uploadprovider"
 	"food/middleware"
 	"food/module/restaurant/transport/ginrestaurant"
 	"food/module/upload/transport/ginupload"
+	"food/module/user/transport/ginuser"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -34,13 +36,17 @@ func main() {
 	//secrectKey := viper.Get("SYSTEM_SECRET")
 
 	s3 := uploadprovider.NewS3(s3BucketName, s3Region, s3APIKey, s3SecretKey, s3Domain)
-	appCtx := appctx.NewAppCtx(db, s3)
+	token := tokenprovider.NewJwt("nothingforyou")
+	appCtx := appctx.NewAppCtx(db, s3, token)
 
 	r := gin.Default()
 	r.Use(middleware.Recover(appCtx))
 	r.Static("/static", "./static")
 	v1 := r.Group("/v1")
 	v1.POST("/upload", ginupload.UploadImage(appCtx))
+	v1.POST("/register", ginuser.UserRegister(appCtx))
+	v1.POST("/login", ginuser.Login(appCtx))
+	v1.GET("/profile", middleware.Auth(appCtx), ginuser.Profile(appCtx))
 	res := v1.Group("/restaurant")
 	res.POST("", ginrestaurant.CreateRestaurant(appCtx))
 	res.DELETE("/:id", ginrestaurant.DeleteRestaurant(appCtx))

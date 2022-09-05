@@ -37,3 +37,26 @@ Content-Type: image/jpg
 
 < ./test.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+########
+POST http://localhost:8080/v1/register
+Content-Type: application/json
+
+{
+    "email":"nothing12@dot.com",
+    "password":"nothing",
+    "last_name":"nothing",
+    "first_name":"dot"
+}
+############################
+POST http://localhost:8080/v1/login
+Content-Type: application/json
+
+{
+    "email":"nothing12@dot.com",
+    "password":"nothing",
+    "last_name":"nothing",
+    "first_name":"dot"
+}
+##############
+GET http://localhost:8080/v1/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjQ1NTU3NSwiaWF0IjoxNjYyMzY5MTc1fQ.OHqBesJvDAwLbLBrRm8IUskS8psYtC3S6cZpMWOjEic
