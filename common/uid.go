@@ -28,7 +28,6 @@ func (u *UID) GetLocalID() uint32 {
 
 func (uid UID) String() string {
 	val := uint64(uid.localID)<<28 | uint64(uid.objectType)<<18 | uint64(uid.shardID)
-
 	return base58.Encode([]byte(fmt.Sprintf("%v", val)))
 }
 

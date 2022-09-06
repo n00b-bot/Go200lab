@@ -20,6 +20,16 @@ func (User) TableName() string {
 	return "users"
 }
 
+func (u User) GetUid() int {
+	return u.Id
+}
+func (u User) GetEmail() string {
+	return u.Email
+}
+func (u User) GetRole() string {
+	return u.Role
+}
+
 type UserCreate struct {
 	common.SQLModel
 	Email     string        `json:"email" gorm:"column:email;"`

@@ -47,7 +47,7 @@ func main() {
 	v1.POST("/register", ginuser.UserRegister(appCtx))
 	v1.POST("/login", ginuser.Login(appCtx))
 	v1.GET("/profile", middleware.Auth(appCtx), ginuser.Profile(appCtx))
-	res := v1.Group("/restaurant")
+	res := v1.Group("/restaurant", middleware.Auth(appCtx))
 	res.POST("", ginrestaurant.CreateRestaurant(appCtx))
 	res.DELETE("/:id", ginrestaurant.DeleteRestaurant(appCtx))
 	res.GET("", ginrestaurant.ListRestaurant(appCtx))

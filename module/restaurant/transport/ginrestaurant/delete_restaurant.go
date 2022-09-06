@@ -17,8 +17,9 @@ func DeleteRestaurant(appCtx appctx.AppContext) gin.HandlerFunc {
 		if err != nil {
 			panic(common.ErrInvalidRequest(err))
 		}
+		user := ctx.MustGet("user").(common.Requester)
 		store := restaurantstorage.NewSqlStore(db)
-		bus := restaurantsbusiness.NewDeleteRestaurantBus(store)
+		bus := restaurantsbusiness.NewDeleteRestaurantBus(store, user)
 		if err := bus.Delete(ctx.Request.Context(), int(uid.GetLocalID())); err != nil {
 			panic(err)
 		}

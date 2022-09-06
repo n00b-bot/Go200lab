@@ -9,9 +9,10 @@ import (
 func (s *sqlStore) ListDataWithCondition(ctx context.Context, filter *restaurantmodel.Filter, paging *common.Paging, moreKeys ...string) ([]restaurantmodel.Restaurant, error) {
 	var rs []restaurantmodel.Restaurant
 	db := s.db.Table(restaurantmodel.Restaurant{}.TableName())
+
 	if f := filter; f != nil {
 		if f.OwnerId > 0 {
-			db = db.Where("owner_id = ?", f.OwnerId)
+			db = db.Where("user_id = ?", f.OwnerId)
 		}
 		if len(f.Status) > 0 {
 			db = db.Where("status in (?)", f.Status)
@@ -19,6 +20,9 @@ func (s *sqlStore) ListDataWithCondition(ctx context.Context, filter *restaurant
 	}
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, err
+	}
+	for i := range moreKeys {
+		db = db.Preload(moreKeys[i])
 	}
 	if paging.FakeCursor != "" {
 		uid, err := common.FromBase58(paging.FakeCursor)

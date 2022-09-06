@@ -146,10 +146,18 @@ func ErrLoginFail(e error) *AppError {
 	)
 }
 
-func ErrJWT(e error) *AppError{
+func ErrJWT(e error) *AppError {
 	return NewCustomError(
 		nil,
 		"Invalid jwt",
 		"ErrJwt",
+	)
+}
+
+func ErrUnAuth(e error) *AppError {
+	return NewCustomError(
+		nil,
+		"Do not have permission",
+		"ErrUnAuth",
 	)
 }

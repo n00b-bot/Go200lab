@@ -6,6 +6,7 @@ import (
 	restaurantsbusiness "food/module/restaurant/business"
 	restaurantmodel "food/module/restaurant/model"
 	restaurantstorage "food/module/restaurant/storage"
+	restaurantlikestorage "food/module/restaurantlike/storage"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,13 +27,15 @@ func ListRestaurant(appCtx appctx.AppContext) gin.HandlerFunc {
 		paging.Fullfill()
 		db := appCtx.GetMysqlConnection()
 		store := restaurantstorage.NewSqlStore(db)
-		bus := restaurantsbusiness.NewListRestaurantBus(store)
+		like := restaurantlikestorage.NewSqlStore(db)
+		bus := restaurantsbusiness.NewListRestaurantBus(store, like)
 		rs, err := bus.List(ctx.Request.Context(), &filter, &paging)
 		if err != nil {
 			panic(err)
 		}
 		for i := range rs {
 			rs[i].GenUID(common.RestaurantType)
+			rs[i].User.GenUID(2)
 
 		}
 		ctx.JSON(http.StatusOK, common.NewSuccessResponse(rs, paging, filter))
