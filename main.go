@@ -6,6 +6,7 @@ import (
 	"food/component/uploadprovider"
 	"food/middleware"
 	"food/module/restaurant/transport/ginrestaurant"
+	"food/module/restaurantlike/transport/ginlike"
 	"food/module/upload/transport/ginupload"
 	"food/module/user/transport/ginuser"
 	"log"
@@ -50,6 +51,9 @@ func main() {
 	res := v1.Group("/restaurant", middleware.Auth(appCtx))
 	res.POST("", ginrestaurant.CreateRestaurant(appCtx))
 	res.DELETE("/:id", ginrestaurant.DeleteRestaurant(appCtx))
+	res.POST("/:id/like", ginlike.UserLike(appCtx))
+	res.DELETE("/:id/unlike", ginlike.DisLike(appCtx))
+	res.GET("/:id/like", ginlike.ListUsers(appCtx))
 	res.GET("", ginrestaurant.ListRestaurant(appCtx))
 	r.Run()
 }

@@ -22,7 +22,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZ
 #######
 
 GET {{api}}/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjQ1NTU3NSwiaWF0IjoxNjYyMzY5MTc1fQ.OHqBesJvDAwLbLBrRm8IUskS8psYtC3S6cZpMWOjEic
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjYwMzEzNywiaWF0IjoxNjYyNTE2NzM3fQ.K0am045bQoANEYZVslCh4LgAlROBa-fuHlqiA1r1nFQ
 ####
 GET {{api}}?cursor=&limit=23 HTTP/1.1
 Content-Type: application/json
@@ -65,4 +65,15 @@ Content-Type: application/json
 }
 ##############
 GET http://localhost:8080/v1/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjQ1NTU3NSwiaWF0IjoxNjYyMzY5MTc1fQ.OHqBesJvDAwLbLBrRm8IUskS8psYtC3S6cZpMWOjEic
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjYwMzEzNywiaWF0IjoxNjYyNTE2NzM3fQ.K0am045bQoANEYZVslCh4LgAlROBa-fuHlqiA1r1nFQ
+
+####
+POST http://localhost:8080/v1/restaurant/e532qos8jjM2/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjYwMzEzNywiaWF0IjoxNjYyNTE2NzM3fQ.K0am045bQoANEYZVslCh4LgAlROBa-fuHlqiA1r1nFQ
+####
+DELETE  http://localhost:8080/v1/restaurant/e532qos8jjM2/unlike
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjYwMzEzNywiaWF0IjoxNjYyNTE2NzM3fQ.K0am045bQoANEYZVslCh4LgAlROBa-fuHlqiA1r1nFQ
+
+#############
+GET http://localhost:8080/v1/restaurant/e532qos8jjM2/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjMsInJvbGUiOiJ1c2VyIn0sImV4cCI6MTY2MjYwMzEzNywiaWF0IjoxNjYyNTE2NzM3fQ.K0am045bQoANEYZVslCh4LgAlROBa-fuHlqiA1r1nFQ
