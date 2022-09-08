@@ -41,7 +41,7 @@ func main() {
 	appCtx := appctx.NewAppCtx(db, s3, token)
 
 	r := gin.Default()
-	r.Use(middleware.Recover(appCtx))
+	r.Use(middleware.Recover())
 	r.Static("/static", "./static")
 	v1 := r.Group("/v1")
 	v1.POST("/upload", ginupload.UploadImage(appCtx))

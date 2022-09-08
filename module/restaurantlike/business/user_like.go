@@ -3,6 +3,7 @@ package restaurantlikebusiness
 import (
 	"context"
 	"food/common"
+	"food/component/asyncjob"
 	restaurantlikemodel "food/module/restaurantlike/model"
 )
 
@@ -30,6 +31,9 @@ func (u *UserLikeRestaurantBus) Like(ctx context.Context, data *restaurantlikemo
 	if err := u.store.Create(ctx, data); err != nil {
 		return common.ErrCannotCreateEntity(restaurantlikemodel.EntityName, err)
 	}
-	u.uplike.UpLike(ctx, data.RestaurantId)
+	j := asyncjob.NewJob(func(ctx context.Context) error {
+		return u.uplike.UpLike(ctx, data.RestaurantId)
+	})
+	asyncjob.NewManager(true, j).Run(ctx)
 	return nil
 }

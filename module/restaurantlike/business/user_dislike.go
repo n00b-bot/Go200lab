@@ -3,6 +3,7 @@ package restaurantlikebusiness
 import (
 	"context"
 	"food/common"
+	"food/component/asyncjob"
 	restaurantlikemodel "food/module/restaurantlike/model"
 )
 
@@ -30,6 +31,10 @@ func (u *UserDisLikeRestaurantBus) DisLike(ctx context.Context, userid int, resi
 	if err := u.store.Delete(ctx, userid, resid); err != nil {
 		return common.ErrCannotDeleteEntity(restaurantlikemodel.EntityName, err)
 	}
-	u.downlike.DownLike(ctx, resid)
+	j := asyncjob.NewJob(func(ctx context.Context) error {
+		return u.downlike.DownLike(ctx, resid)
+	})
+	asyncjob.NewManager(true, j).Run(ctx)
+
 	return nil
 }
