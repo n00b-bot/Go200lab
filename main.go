@@ -9,6 +9,8 @@ import (
 	"food/module/restaurantlike/transport/ginlike"
 	"food/module/upload/transport/ginupload"
 	"food/module/user/transport/ginuser"
+	"food/pubsub"
+	"food/subscriber"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -38,7 +40,11 @@ func main() {
 
 	s3 := uploadprovider.NewS3(s3BucketName, s3Region, s3APIKey, s3SecretKey, s3Domain)
 	token := tokenprovider.NewJwt("nothingforyou")
-	appCtx := appctx.NewAppCtx(db, s3, token)
+	ps := pubsub.NewPubSub()
+	appCtx := appctx.NewAppCtx(db, s3, token, ps)
+	//subscriber.SetUp(appCtx, context.Background())
+	engine := subscriber.NewEngine(appCtx)
+	engine.Start()
 
 	r := gin.Default()
 	r.Use(middleware.Recover())

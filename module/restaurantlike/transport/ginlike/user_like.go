@@ -23,8 +23,8 @@ func UserLike(appctx appctx.AppContext) gin.HandlerFunc {
 			UserId:       res.GetUid(),
 		}
 		store := restaurantlikestorage.NewSqlStore(appctx.GetMysqlConnection())
-		like := restaurantlikestorage.NewSqlStore(appctx.GetMysqlConnection())
-		bus := restaurantlikebusiness.NewUserLikeRestaurantBus(store, like)
+		//like := restaurantlikestorage.NewSqlStore(appctx.GetMysqlConnection())
+		bus := restaurantlikebusiness.NewUserLikeRestaurantBus(store, appctx.GetPubSub())
 		if err := bus.Like(ctx.Request.Context(), &data); err != nil {
 			panic(err)
 		}

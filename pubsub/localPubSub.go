@@ -31,7 +31,7 @@ func (ps *localPubSub) Publish(ctx context.Context, topic Topic, data *Message) 
 	return nil
 }
 
-func (ps *localPubSub) Subcribe(ctx context.Context, topic Topic) (ch <-chan *Message, close func()) {
+func (ps *localPubSub) Subscribe(ctx context.Context, topic Topic) (ch <-chan *Message, close func()) {
 	c := make(chan *Message)
 	ps.locker.Lock()
 	if val, ok := ps.mapChannel[topic]; ok {
